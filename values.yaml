@@ -1,0 +1,10 @@
+Deployment : 
+  AppName: bookstore-api-server
+  Image: shaad7/bookstore-api-server:latest
+ConfigMap :
+  Name : my-config-map
+  Volume: config-map-volume
+Service:
+  Name: my-service
+  ContainerPort: 8081
+  ServicePort: 8081

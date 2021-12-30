@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name}}-deployment
+  labels:
+    app: {{ .Values.Deployment.AppName}} #bookstore-api-server
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: {{ .Values.Deployment.AppName}} #bookstore-api-server
+  template:
+    metadata:
+      labels:
+        app: {{ .Values.Deployment.AppName}} #bookstore-api-server
+    spec:
+      containers:
+        - name: {{ .Values.Deployment.AppName}} #bookstore-api-server
+          image: {{ .Values.Deployment.Image}} #shaad7/bookstore-api-server:1.0
+          ports:
+            - containerPort: 80
+          volumeMounts:
+          - name: {{ .Values.ConfigMap.Volume }} #config-map-volume
+            mountPath: "/config"
+            readOnly: true
+      volumes: 
+        - name: {{.Values.ConfigMap.Volume}} #config-map-volume
+          configMap: 
+            name: {{.Values.ConfigMap.Name}} #my-config-map
